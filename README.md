@@ -58,7 +58,7 @@ URL: http://osoc.herokuapp.com/
 
 ## Jun's Schema
 
-(/osoc.png) 
+![alt text](/osoc.png) 
 
 
 ## Screencaps
