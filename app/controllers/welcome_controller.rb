@@ -1,4 +1,7 @@
 class WelcomeController < ApplicationController
-  def index
+  skip_before_action :require_login
+  
+  def index		
   end
+  
 end

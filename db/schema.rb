@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160413104817) do
+ActiveRecord::Schema.define(version: 20160414063446) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,6 +23,12 @@ ActiveRecord::Schema.define(version: 20160413104817) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "categories", force: :cascade do |t|
+    t.string   "category_name"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
   create_table "conversations", force: :cascade do |t|
     t.integer  "song_id"
     t.integer  "init_user_id"
@@ -30,10 +36,9 @@ ActiveRecord::Schema.define(version: 20160413104817) do
     t.datetime "exp_time"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
-    t.integer  "songs_id"
   end
 
-  add_index "conversations", ["songs_id"], name: "index_conversations_on_songs_id", using: :btree
+  add_index "conversations", ["song_id"], name: "index_conversations_on_song_id", using: :btree
 
   create_table "messages", force: :cascade do |t|
     t.integer  "conversation_id"
@@ -45,6 +50,23 @@ ActiveRecord::Schema.define(version: 20160413104817) do
 
   add_index "messages", ["conversation_id"], name: "index_messages_on_conversation_id", using: :btree
 
+  create_table "play_users", force: :cascade do |t|
+    t.integer  "play_id"
+    t.integer  "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "plays", force: :cascade do |t|
+    t.integer  "song_id"
+    t.string   "heartbeat"
+    t.datetime "last_heard_at"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+  end
+
+  add_index "plays", ["song_id"], name: "index_plays_on_song_id", using: :btree
+
   create_table "reports", force: :cascade do |t|
     t.integer  "reporter_user_id"
     t.integer  "blamed_user_id"
@@ -53,9 +75,6 @@ ActiveRecord::Schema.define(version: 20160413104817) do
     t.datetime "updated_at",       null: false
   end
 
-<<<<<<< HEAD
-  create_table "songs", force: :cascade do |t|
-=======
   create_table "results", force: :cascade do |t|
     t.string   "query"
     t.json     "raw"
@@ -63,27 +82,25 @@ ActiveRecord::Schema.define(version: 20160413104817) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "song_lists", force: :cascade do |t|
+  create_table "song_users", force: :cascade do |t|
     t.integer  "song_id"
->>>>>>> master
     t.integer  "user_id"
-    t.string   "type"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.datetime "heart_beat"
-    t.string   "name"
-<<<<<<< HEAD
-    t.integer  "length"
-    t.string   "utubeid"
-=======
+    t.integer  "category_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "song_users", ["category_id"], name: "index_song_users_on_category_id", using: :btree
+  add_index "song_users", ["song_id"], name: "index_song_users_on_song_id", using: :btree
+  add_index "song_users", ["user_id"], name: "index_song_users_on_user_id", using: :btree
+
+  create_table "songs", force: :cascade do |t|
+    t.string   "song_name"
     t.string   "url"
     t.string   "uid"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
->>>>>>> master
   end
-
-  add_index "songs", ["user_id"], name: "index_songs_on_user_id", using: :btree
 
   create_table "user_pictures", force: :cascade do |t|
     t.integer  "user_id"
@@ -95,17 +112,22 @@ ActiveRecord::Schema.define(version: 20160413104817) do
   add_index "user_pictures", ["user_id"], name: "index_user_pictures_on_user_id", using: :btree
 
   create_table "users", force: :cascade do |t|
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
     t.string   "name"
+    t.string   "address"
+    t.string   "city"
+    t.string   "country"
+    t.string   "phone"
     t.string   "email"
+    t.date     "birthday"
     t.string   "uid"
     t.string   "oauth_token"
-    t.datetime "oauth_expires_at"
     t.string   "provider"
+    t.datetime "oauth_expires_at"
+    t.string   "preferred_gender"
+    t.integer  "preferred_age"
+    t.boolean  "admin",            default: false
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
   end
 
-  add_foreign_key "messages", "conversations"
-  add_foreign_key "songs", "users"
-  add_foreign_key "user_pictures", "users"
 end

@@ -1,0 +1,19 @@
+%h1 Youtube Search
+= form_tag nil, method: 'get', class: 'form-inline', style: 'margin-bottom: 20px' do
+  .form-group
+    = text_field_tag :q, params[:q], class: 'form-control'
+    = submit_tag "Search", class: 'btn btn-secondary'
+.col-sm-8
+  #youtube_video
+    - if params[:video_id]
+      = render 'video', video_id: params[:video_id]
+      = link_to 'Go to Conversation', '/conversations/1', class: 'button btn btn-primary'
+.col-sm-4
+  - if @results.present?
+    - @results.each do |result|
+      - if result.video?
+        = image_tag result.default_thumbnail_url, width: result.default_thumbnail_url, height: result.default_thumbnail_height
+      %span.label.label-primary= result.result_type
+      = link_to result.title, root_path(q: params[:q], video_id: result.video_id)
+      = result.description
+  - else

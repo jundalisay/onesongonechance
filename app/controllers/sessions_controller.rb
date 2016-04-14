@@ -3,7 +3,8 @@ class SessionsController < ApplicationController
     if @user = User.from_omniauth(env["omniauth.auth"])
       session[:user_id] = @user.id
       flash[:success] = "Logged in"
-      redirect_to root_path 
+      # redirect_to root_path
+      redirect_to results_path 
     else
       flash.now[:error] = "Log in failed"
       render 'new' 

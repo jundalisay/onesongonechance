@@ -9,10 +9,10 @@ Rails.application.routes.draw do
 
   delete 'logout' => 'sessions#destroy'
   get '/conversations/:id', to: 'conversations#show'
-  resources :messages
 
   resources :results
   resources :songs
+  get "/welcome/index" #, to: 'welcome#index'
   root 'results#index'
 
 end

@@ -1,0 +1,45 @@
+%h1 Youtube Search
+
+.form-group
+  = form_tag nil, method: 'get', class: 'form-inline', style: 'margin-bottom: 20px' do
+    = text_field_tag :q, params[:q], class: 'form-control'
+    = submit_tag "Search", class: 'btn btn-secondary'
+
+.col-sm-12
+  .col-sm-8
+    %h1 Chat Room
+    .chat-wrapper
+      .messages
+        = render Message.last_five(params[:id])
+    .chatbox
+      - if current_user
+        .currentuser= current_user.email
+        = form_for Message.new, remote: true do |f|
+          .input-group
+            = f.text_field :content, class: 'form-control', autocomplete: "off", 'data-user' => current_user.email
+            = f.hidden_field  :conversation_id, :value => params[:id], class: 'form-control'
+            .input-group-btn
+              = f.submit "Send", class: 'btn btn-secondary'
+      - else
+
+  .col-sm-4
+    /
+      <div class="video-container"><iframe src="http://www.youtube.com/embed/
+      oHg5SJYRHA0?autoplay=1&amp;cc_load_policy=1&amp;fs=0" frameborder="0" allowfullscreen></iframe></div>
+    %span#time
+    minutes!
+  Video Is Supposed To Show Here
+  #youtube_video
+
+  - if params[:video_id]
+    = render 'video', video_id: params[:video_id]
+    - if @results.present?
+      - @results.each do |result|
+        - if result.video?
+          = image_tag result.default_thumbnail_url, width: result.default_thumbnail_url, height: result.default_thumbnail_height
+          %span.label.label-primary= result.result_type
+          = link_to result.title, root_path(q: params[:q], video_id: result.video_id)
+          = result.description
+        - else
+    - else
+  - else
