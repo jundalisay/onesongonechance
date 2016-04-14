@@ -1,9 +1,14 @@
-%h1 Youtube Search
+- if !current_user
+  .card
+    You're not logged but we'll let you use the app!
+- else
 
-.form-group
-  = form_tag nil, method: 'get', class: 'form-inline', style: 'margin-bottom: 20px' do
-    = text_field_tag :q, params[:q], class: 'form-control'
-    = submit_tag "Search", class: 'btn btn-secondary'
+/ %h1 Youtube Search
+
+/ .form-group
+/   = form_tag nil, method: 'get', class: 'form-inline', style: 'margin-bottom: 20px' do
+/     = text_field_tag :q, params[:q], class: 'form-control'
+/     = submit_tag "Search", class: 'btn btn-secondary'
 
 .col-sm-12
   .col-sm-8

@@ -14,6 +14,7 @@
             %li.nav-item.pull-xs-right
               Welcome, #{current_user.to_s}
               #{link_to "Logout", logout_path, data: { confirm: 'Are you sure?' }, method: 'delete'}
+              .fb-like{"data-share" => "true", "data-show-faces" => "true", "data-width" => "450"}
           - else
             %li.nav-item
               = link_to "Sign in with Facebook", "/auth/facebook", id: "sign_in", class: 'nav-link'
@@ -23,3 +24,21 @@
             = value
       .container
         = yield
+
+
+:javascript
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '1777815982452559',
+      xfbml      : true,
+      version    : 'v2.6'
+    });
+  };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "//connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
