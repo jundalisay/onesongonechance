@@ -55,6 +55,12 @@ URL: http://osoc.herokuapp.com/
 * [ ] User can see the list of people who listening most songs in their playlist
 * [ ] User can skip to next person if they don't like current matching
 
+
+## Jun's Schema
+
+(/osoc.png) 
+
+
 ## Screencaps
 
 > User can search for songs and start a conversation
